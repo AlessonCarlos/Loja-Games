@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Produto } from "../etities/produto.ennity";
-import { ILike, Repository } from "typeorm";
+import { DeleteResult, ILike, Repository } from "typeorm";
 
 // Aqui sera implementado os metodos da aplicação
 @Injectable()
@@ -40,5 +40,22 @@ export class ProdutoService {
     async create(produto: Produto): Promise<Produto>{
         //O save() cuida de inserir o novo registro e tetornar o objeto com ID e Data
     return await this.produtoRepository.save(produto);
+    }
+//implementando o método update
+    async update(produto: Produto): Promise<Produto>{
+    //1° Verificar se o produto existe. Se não existir, o findById lança o erro
+    await this.findById(produto.id)
+
+    //2° Se existir, o save() identifica o ID e faz o update no banco de dados.
+    return await this.produtoRepository.save(produto);
+
+}
+//implementando o método delete
+    async delete(id: number): Promise<DeleteResult>{
+    //1° verificar se o produto existe antes de deletar
+    await this.findById(id);
+
+    //2° Se exisitir, executa a exclusão
+    return await this.produtoRepository.delete(id)
     }
 }
