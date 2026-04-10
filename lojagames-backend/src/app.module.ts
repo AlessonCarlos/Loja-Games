@@ -1,11 +1,13 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Produto } from './produto/etities/produto.entity';
+import { Produto } from './produto/entities/produto.entity';
 import { ProdutoModule } from './produto/produto.module';
 import { Categoria } from './categoria/entities/categoria.entity';
 import { CategoriaModule } from './categoria/categoria.module';
 import { Usuario } from './usuario/entities/usuario.entity';
 import { UsuarioModule } from './usuario/usuario.module';
+import { AuthModule } from './auth/auth.module';
+import { AppController } from './app.controller';
 
 @Module({
   imports: [
@@ -21,9 +23,10 @@ import { UsuarioModule } from './usuario/usuario.module';
     }),
     ProdutoModule,
     CategoriaModule,
-    UsuarioModule
+    UsuarioModule,
+    AuthModule
   ],
-  controllers: [],
+  controllers: [AppController],
   providers: [],
 })
 export class AppModule {}

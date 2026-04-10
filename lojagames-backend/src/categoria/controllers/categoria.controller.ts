@@ -1,8 +1,13 @@
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Post, Put } from "@nestjs/common";
 import { CategoriaService } from "../services/categoria.service";
 import { Categoria } from "../entities/categoria.entity";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 
 @Controller("/categorias")
+
+@ApiTags('Categorias') // 🔹 Define a "tag" desse controller no Swagger (organiza os endpoints)
+@ApiBearerAuth()       // 🔹 Indica que as rotas usam autenticação via Bearer Token (JWT, por exemplo)
+
 export class CategoriaController {
     constructor(private readonly categoriaService: CategoriaService) {}
     
@@ -21,7 +26,7 @@ export class CategoriaController {
     @Get('/descricao/:descricao')
     @HttpCode(HttpStatus.OK)
     findAllByDescricao(@Param('descricao') descricao: string): Promise<Categoria[]> {
-    return this.categoriaService.findAllByDescricao(descricao);
+        return this.categoriaService.findAllByDescricao(descricao);
     }
 
     @Post()
@@ -41,9 +46,9 @@ export class CategoriaController {
     delete(@Param('id', ParseIntPipe) id: number) {
         return this.categoriaService.delete(id)
     }
+}
     
 
 
 
 
-}
